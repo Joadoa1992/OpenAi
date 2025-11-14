@@ -1,3 +1,9 @@
+let sessionId = localStorage.getItem("sessionId");
+if (!sessionId) {
+    sessionId = crypto.randomUUID();
+    localStorage.setItem("sessionId", sessionId);
+}
+
 function sendMessage() {
     const msg = document.getElementById("messageInput").value;
     const responseBox = document.getElementById("responseBox");
@@ -9,18 +15,10 @@ function sendMessage() {
 
     responseBox.textContent = "Loading...";
 
-    fetch(`/chat?message=` + encodeURIComponent(msg))
+    fetch(`/chat?sessionId=${encodeURIComponent(sessionId)}&message=${encodeURIComponent(msg)}`)
         .then(res => res.json())
         .then(data => {
-            console.log(data);
-            const choices = data.Choices ?? data.choices;
-
-            let text = "";
-            choices.forEach((c) => {
-                text += `${c.message.content}\n\n`;
-            });
-
-            responseBox.textContent = text;
+            responseBox.textContent = data.reply || "Ingen svar fra serveren.";
         })
         .catch(err => {
             responseBox.textContent = "Error: " + err;
