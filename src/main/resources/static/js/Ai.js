@@ -3,7 +3,7 @@ function sendMessage() {
     const responseBox = document.getElementById("responseBox");
 
     if (!msg) {
-        responseBox.textContent = "Please enter a message first.";
+        responseBox.textContent = "Hvad vil du snakke om?";
         return;
     }
 
@@ -26,3 +26,7 @@ function sendMessage() {
             responseBox.textContent = "Error: " + err;
         });
 }
+
+window.onload = function() {
+    document.getElementById("responseBox").textContent = "Hvad vil du snakke om?";
+};
