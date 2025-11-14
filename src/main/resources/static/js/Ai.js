@@ -13,11 +13,11 @@ function sendMessage() {
         .then(res => res.json())
         .then(data => {
             console.log(data);
-            const choices = data.Choices;
+            const choices = data.Choices ?? data.choices;
 
             let text = "";
-            choices.forEach((c, index) => {
-                text += `Answer ${index + 1}:\n${c.message.content}\n\n`;
+            choices.forEach((c) => {
+                text += `${c.message.content}\n\n`;
             });
 
             responseBox.textContent = text;
